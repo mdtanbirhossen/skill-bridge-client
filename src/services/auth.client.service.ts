@@ -1,14 +1,8 @@
 import { apiFetchClient } from "@/lib/api.client";
+import { CreateUserInput } from "@/types/user.types";
 
-export const authService = {
-
-  signUp: (payload: {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    image?: string;
-  }) =>
+export const authClientService = {
+  signUp: (payload: CreateUserInput) =>
     apiFetchClient("/auth/register", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -24,5 +18,4 @@ export const authService = {
     apiFetchClient("/auth/logout", {
       method: "POST",
     }),
-
 };

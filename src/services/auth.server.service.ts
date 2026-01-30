@@ -3,7 +3,7 @@ import { JwtUserPayload } from "@/types/user.types";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
-export const userService = {
+export const authServerService = {
   getMe: () => apiFetchServer("/auth/me"),
   getSession: async (): Promise<JwtUserPayload | null> => {
     const cookieStore = await cookies();
