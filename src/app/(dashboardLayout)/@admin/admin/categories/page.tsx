@@ -1,5 +1,8 @@
+import { adminService } from "@/services/admin.service";
 
-const CategoriesListPage = () => {
+const CategoriesListPage = async() => {
+    const data = await adminService.getAllCategories();
+    console.log(data)
     return (
         <div>
             this is admin categories page

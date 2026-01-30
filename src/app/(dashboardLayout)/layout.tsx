@@ -1,21 +1,13 @@
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/roles";
-import { Children } from "react";
+import { userService } from "@/services/user.service";
 
 export default async function DashboardLayout({
     children,
@@ -29,7 +21,25 @@ export default async function DashboardLayout({
     tutor: React.ReactNode;
 }) {
 
-
+    const userInfo = await userService.getSession();
+    if (!userInfo) {
+        return <div>Please login to access the dashboard</div>
+    }
+    let content;
+    switch (userInfo.role) {
+        case Roles.admin:
+            content = admin
+            break;
+        case Roles.student:
+            content = student
+            break;
+        case Roles.tutor:
+            content = tutor
+            break;
+        default:
+            content = <div>Unauthorized</div>
+    }
+    console.log("user info in layout:", userInfo);
     return (
         <SidebarProvider>
             <AppSidebar user={{ role: 'ADMIN' }} />
@@ -38,7 +48,7 @@ export default async function DashboardLayout({
                     <SidebarTrigger className="-ml-1" />
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4">
-                    {/* {userInfo.role === Roles.admin ? admin : user} */}
+                    {content}
 
                 </div>
             </SidebarInset>

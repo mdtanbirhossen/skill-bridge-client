@@ -1,5 +1,8 @@
+import { adminService } from "@/services/admin.service";
 
-const AdminDashboardPage = () => {
+const AdminDashboardPage = async () => {
+
+
     return (
         <div>
             this is admin dashboard
