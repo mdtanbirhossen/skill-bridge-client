@@ -6,7 +6,7 @@ export default function BasicLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div>
+        <div className="">
             <Navbar />
             {children}
         </div>

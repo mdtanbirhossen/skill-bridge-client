@@ -1,12 +1,9 @@
 "use client"
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import Cookies from "js-cookie";
+import { User } from "@/types/user.types";
 
-//  User type
-export type User = {
-  name: string;
-  email?: string;
-};
+
 
 //  Context type
 type AuthContextType = {

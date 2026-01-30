@@ -1,16 +1,14 @@
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
-
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/roles";
-import { userService } from "@/services/user.service";
+import { authServerService } from "@/services/auth.server.service";
 
 export default async function DashboardLayout({
-    children,
     admin,
     student,
     tutor,
@@ -21,7 +19,7 @@ export default async function DashboardLayout({
     tutor: React.ReactNode;
 }) {
 
-    const userInfo = await userService.getSession();
+    const userInfo = await authServerService.getSession();
     if (!userInfo) {
         return <div>Please login to access the dashboard</div>
     }
@@ -42,7 +40,7 @@ export default async function DashboardLayout({
     console.log("user info in layout:", userInfo);
     return (
         <SidebarProvider>
-            <AppSidebar user={{ role: 'ADMIN' }} />
+            <AppSidebar user={userInfo} />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
                     <SidebarTrigger className="-ml-1" />
