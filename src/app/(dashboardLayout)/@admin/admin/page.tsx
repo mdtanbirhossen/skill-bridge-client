@@ -1,5 +1,5 @@
 
-const page = () => {
+const AdminDashboardPage = () => {
     return (
         <div>
             this is admin dashboard
@@ -7,4 +7,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default AdminDashboardPage;

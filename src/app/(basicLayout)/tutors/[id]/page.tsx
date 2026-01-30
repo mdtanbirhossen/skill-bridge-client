@@ -1,10 +1,10 @@
 
-const page = () => {
+const TutorDetailsPage = () => {
     return (
         <div>
-            this is tutors id page
+            this is tutors details page
         </div>
     );
 };
 
-export default page;
+export default TutorDetailsPage;

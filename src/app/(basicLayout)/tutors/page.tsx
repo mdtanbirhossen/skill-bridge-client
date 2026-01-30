@@ -1,5 +1,5 @@
 
-const page = () => {
+const TutorPage = () => {
     return (
         <div>
             this is tutors page
@@ -7,4 +7,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default TutorPage;

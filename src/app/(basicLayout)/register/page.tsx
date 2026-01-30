@@ -1,5 +1,5 @@
 
-const page = () => {
+const RegisterPage = () => {
     return (
         <div>
             this is register page
@@ -7,4 +7,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default RegisterPage;

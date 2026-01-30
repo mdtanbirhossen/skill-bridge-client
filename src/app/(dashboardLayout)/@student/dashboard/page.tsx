@@ -1,5 +1,5 @@
 
-const page = () => {
+const StudentDashboardPage = () => {
     return (
         <div>
             this is student dashboard
@@ -7,4 +7,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default StudentDashboardPage;
