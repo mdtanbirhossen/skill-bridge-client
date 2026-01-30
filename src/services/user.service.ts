@@ -1,28 +1,26 @@
 import { apiFetchServer } from "@/lib/api.server";
-
+import { JwtUserPayload } from "@/types/user.types";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 export const userService = {
-  getSession: async () => {
+  getMe: () => apiFetchServer("/auth/me"),
+  getSession: async (): Promise<JwtUserPayload | null> => {
+    const cookieStore = await cookies();
+    const tokenCookie = cookieStore.get("token");
+
+    if (!tokenCookie) return null;
+
     try {
-      const res = await apiFetchServer("/auth/me");
+      const decoded = jwt.verify(
+        tokenCookie.value,
+        process.env.JWT_SECRET as string,
+      ) as JwtUserPayload;
 
-      if (!res.ok) {
-        return {
-          data: null,
-          error: { message: res.message || "Session missing" },
-        };
-      }
-
-      return {
-        data: res.data,
-        error: null,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        data: null,
-        error: { message: "Something went wrong" },
-      };
+      return decoded;
+    } catch (err) {
+      console.log("JWT invalid or expired:", err);
+      return null;
     }
   },
 };
