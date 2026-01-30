@@ -202,7 +202,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                       <SelectTrigger
                         id="form-tanstack-select-language"
                         aria-invalid={isInvalid}
-                        className="min-w-[120px]"
+                        className="min-w-30"
                       >
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
