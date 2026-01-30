@@ -67,6 +67,10 @@ const Navbar = ({
   menu = [
     { title: "Home", url: "/" },
     {
+      title: "Tutors",
+      url: "/tutors",
+    },
+    {
       title: "About",
       url: "/",
     },
@@ -74,6 +78,7 @@ const Navbar = ({
       title: "Contact Us",
       url: "/contact-us",
     },
+    
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -83,6 +88,13 @@ const Navbar = ({
 }: Navbar1Props) => {
   const router = useRouter();
   const { user: userInfo, logout } = useAuth();
+
+  if(userInfo){
+    menu.push({
+      title: "Dashboard",
+      url: userInfo.role === "admin" ? "/admin" : userInfo.role === "tutor" ? "/tutor" : "/dashboard",
+    })
+  }
   console.log("from auth context", userInfo)
   const handleLogout = async () => {
     await fetch("/api/auth/logout", {
