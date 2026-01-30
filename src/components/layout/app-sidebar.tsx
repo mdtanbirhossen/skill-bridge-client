@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -18,6 +19,8 @@ import { Route } from "@/types/routes.type";
 import { adminRoutes } from "@/routes/adminRoutes";
 import { studentRoutes } from "@/routes/studentRoutes";
 import { tutorRoutes } from "@/routes/tutorRoutes";
+import { NavUser } from "../ui/nav-user";
+import { publicRoutes } from "@/routes/publicRoutes";
 
 export function AppSidebar({
   user,
@@ -45,6 +48,23 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarContent>
+        <SidebarHeader>Skill Bridge</SidebarHeader>
+        {publicRoutes.map((item) => (
+          <SidebarGroup key={item.title}>
+            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {item.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}><item.icon /><span>{item.title}</span></Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
         {routes.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
@@ -53,7 +73,7 @@ export function AppSidebar({
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <Link href={item.url}>{item.title}</Link>
+                      <Link href={item.url}><item.icon /><span>{item.title}</span></Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -62,6 +82,10 @@ export function AppSidebar({
           </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarFooter>
+
+        <NavUser />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

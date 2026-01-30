@@ -1,81 +1,240 @@
-import { cn } from "@/lib/utils"
+"use client"
 import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
   Field,
-  FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import * as z from "zod";
+import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from "./ui/select";
+import { authClientService } from "@/services/auth.client.service"
+import { imageHostingService } from "@/services/imageHosting.service"
 
-export function SignupForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+
+const userRoles = [
+  { label: "STUDENT", value: "STUDENT" },
+  { label: "TUTOR", value: "TUTOR" }
+] as const
+
+const formSchema = z.object({
+  name: z.string().min(1, "This field is required"),
+  password: z.string().min(8, "Minimum length is 8"),
+  email: z.email(),
+  role: z.enum(["STUDENT", "TUTOR"]),
+  image: z
+    .array(z.instanceof(File))
+    .min(1, "Please upload a medicine image")
+});
+
+export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      role: "STUDENT",
+      image: [] as File[]
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: async ({ value }) => {
+      const toastId = toast.loading(`Creating ${value.role}...`);
+      console.log(value);
+      const file = value.image[0]
+
+      // Upload image first
+      const uploadRes = await imageHostingService.uploadImage(file)
+      if (!uploadRes.ok || !uploadRes.url) {
+        toast.error("Image upload failed")
+        return
+      }
+      console.log("Image uploaded:", uploadRes.url)
+      console.log("Image uploaded:", uploadRes)
+      const finalPayload = { name: value.name, email: value.email, password: value.password, role: value.role, image: uploadRes.url }
+      console.log("Final payload:", finalPayload)
+      const result = await authClientService.signUp(finalPayload);
+
+      if (!result.ok) {
+        toast.error(result.message || `${value.role} Registered Failed`, { id: toastId });
+
+        return {
+          form: "Invalid email or password",
+        };
+      }
+
+      toast.success(`${value.role} Registered Successfully`, { id: toastId });
+      console.log("Registered user:", result.data.data.user);
+    }
+  });
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Create your account</CardTitle>
-          <CardDescription>
-            Enter your email below to create your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" required />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <Field className="grid grid-cols-2 gap-4">
-                  <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input id="password" type="password" required />
+    <Card {...props}>
+      <CardHeader>
+        <CardTitle>Create an account</CardTitle>
+        <CardDescription>
+          Enter your information below to create your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form
+          id="login-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+        >
+          <FieldGroup>
+            <form.Field
+              name="name"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                    <Input
+                      type="text"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
                   </Field>
+                );
+              }}
+            />
+            <form.Field
+              name="email"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
                   <Field>
-                    <FieldLabel htmlFor="confirm-password">
-                      Confirm Password
-                    </FieldLabel>
-                    <Input id="confirm-password" type="password" required />
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <Input
+                      type="email"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
                   </Field>
-                </Field>
-                <FieldDescription>
-                  Must be at least 8 characters long.
-                </FieldDescription>
-              </Field>
-              <Field>
-                <Button type="submit">Create Account</Button>
-                <FieldDescription className="text-center">
-                  Already have an account? <Link href="/login">Sign in</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-      <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </FieldDescription>
-    </div>
+                );
+              }}
+            />
+            <form.Field
+              name="password"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <Input
+                      type="password"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
+            <form.Field name="image">
+              {(field) => {
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel>Medicine Image</FieldLabel>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => field.handleChange(Array.from(e.target.files || []))}
+                    />
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                  </Field>
+                )
+              }}
+            </form.Field>
+
+
+
+            <form.Field
+              name="role"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field orientation="responsive" data-invalid={isInvalid}>
+
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                    <Select
+                      name={field.name}
+                      value={field.state.value}
+                      onValueChange={field.handleChange}
+                    >
+                      <SelectTrigger
+                        id="form-tanstack-select-language"
+                        aria-invalid={isInvalid}
+                        className="min-w-[120px]"
+                      >
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent position="item-aligned">
+                        <SelectSeparator />
+                        {userRoles.map((role) => (
+                          <SelectItem
+                            key={role.value}
+                            value={role.value}
+                          >
+                            {role.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                )
+              }}
+            />
+
+
+
+
+
+          </FieldGroup>
+        </form>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-5 justify-end">
+        <Button form="login-form" type="submit" className="w-full">
+          Register
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }

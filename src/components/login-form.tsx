@@ -20,8 +20,9 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { z } from "zod"
 import { toast } from "sonner"
-import { authService } from "@/services/auth.service"
+import { authClientService } from "@/services/auth.client.service"
 import { useForm } from "@tanstack/react-form";
+import { useAuth } from "@/context/AuthContext"
 
 const formSchema = z.object({
   password: z.string().min(8, "Minimum length is 8"),
@@ -32,6 +33,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const { user: userInfo, setUser, logout, token, login } = useAuth();
 
   const form = useForm({
     defaultValues: {
@@ -45,7 +47,7 @@ export function LoginForm({
       const toastId = toast.loading("Finding User...");
       const userLoginInfo = { ...value };
 
-      const result = await authService.signIn(userLoginInfo);
+      const result = await authClientService.signIn(userLoginInfo);
       console.log(result)
       if (!result.ok) {
         toast.error(result.message || "Invalid credentials", { id: toastId });
@@ -54,9 +56,11 @@ export function LoginForm({
           form: "Invalid email or password",
         };
       }
+      // set user and token in context
+      login(result.data.data.user, result.data.data.token)
 
       toast.success("User Login Successfully", { id: toastId });
-      console.log("Logged in user:", result.data.user);
+      console.log("Logged in user:", result.data.data);
     }
 
 

@@ -1,9 +1,7 @@
-"use client";
+"use client"
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
-
+import { Menu, Trees, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 import {
   Accordion,
   AccordionContent,
@@ -26,6 +24,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface MenuItem {
   title: string;
@@ -66,37 +66,6 @@ const Navbar = ({
   },
   menu = [
     { title: "Home", url: "/" },
-    // {
-    //   title: "Products",
-    //   url: "#",
-    //   items: [
-    //     {
-    //       title: "Blog",
-    //       description: "The latest industry news, updates, and info",
-    //       icon: <Book className="size-5 shrink-0" />,
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Company",
-    //       description: "Our mission is to innovate and empower the world",
-    //       icon: <Trees className="size-5 shrink-0" />,
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Careers",
-    //       description: "Browse job listing and discover our workspace",
-    //       icon: <Sunset className="size-5 shrink-0" />,
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Support",
-    //       description:
-    //         "Get in touch with our support team or visit our community forums",
-    //       icon: <Zap className="size-5 shrink-0" />,
-    //       url: "#",
-    //     },
-    //   ],
-    // },
     {
       title: "About",
       url: "/",
@@ -107,14 +76,25 @@ const Navbar = ({
     },
   ],
   auth = {
-    login: { title: "Login", url: "#" },
-    signup: { title: "Sign up", url: "#" },
+    login: { title: "Login", url: "/login" },
+    signup: { title: "Register", url: "/register" },
   },
   className,
 }: Navbar1Props) => {
+  const router = useRouter();
+  const { user: userInfo, logout } = useAuth();
+  console.log("from auth context", userInfo)
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+    router.refresh();
+    // router.push("/login");
+    logout();
+  };
   return (
-    <section className={cn("py-4", className)}>
-      <div className="container">
+    <section className={cn("py-4 px-2 md:px-5", className)}>
+      <div className="">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
@@ -138,12 +118,23 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size="sm">
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
+            {userInfo ? (
+              <>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Hi, {userInfo.email}
+                </span>
+                <Button onClick={handleLogout}>Logout</Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="outline" size="sm">
+                  <a href={auth.login.url}>{auth.login.title}</a>
+                </Button>
+                <Button asChild size="sm">
+                  <a href={auth.signup.url}>{auth.signup.title}</a>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -186,13 +177,20 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.title}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
-                    </Button>
+                    {userInfo ? (
+                      <Button onClick={handleLogout}>Logout</Button>
+                    ) : (
+                      <>
+                        <Button asChild variant="outline">
+                          <a href={auth.login.url}>{auth.login.title}</a>
+                        </Button>
+                        <Button asChild>
+                          <a href={auth.signup.url}>{auth.signup.title}</a>
+                        </Button>
+                      </>
+                    )}
                   </div>
+
                 </div>
               </SheetContent>
             </Sheet>
