@@ -1,4 +1,5 @@
 import { Route } from "@/types/routes.type";
+import { AlignEndVerticalIcon, LayoutDashboard,  User2 } from "lucide-react";
 
 export const tutorRoutes: Route[] = [
   {
@@ -7,14 +8,17 @@ export const tutorRoutes: Route[] = [
       {
         title: "Dashboard",
         url: "/tutor/dashboard",
+        icon: LayoutDashboard
       },
       {
         title: "Availability",
         url: "/tutor/availability",
+        icon: AlignEndVerticalIcon
       },
       {
         title: "Profile",
         url: "/tutor/profile",
+        icon: User2
       },
     ],
   },
