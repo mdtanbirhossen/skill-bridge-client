@@ -21,6 +21,7 @@ export default async function DashboardLayout({
 }) {
 
     const userInfo = await authServerService.getSession();
+    console.log("user info in layout fetch:", userInfo);
     if (!userInfo) {
         redirect("/login?reason=auth");
     }
@@ -48,7 +49,7 @@ export default async function DashboardLayout({
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4">
                     {content}
-
+                    
                 </div>
             </SidebarInset>
         </SidebarProvider>
