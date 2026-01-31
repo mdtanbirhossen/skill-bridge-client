@@ -23,6 +23,8 @@ import { toast } from "sonner"
 import { authClientService } from "@/services/auth.client.service"
 import { useForm } from "@tanstack/react-form";
 import { useAuth } from "@/context/AuthContext"
+import { redirect, useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
 const formSchema = z.object({
   password: z.string().min(8, "Minimum length is 8"),
@@ -34,6 +36,16 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const { user: userInfo, setUser, logout, token, login } = useAuth();
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get("redirectUrl") || "/"
+
+  const params = useSearchParams();
+
+  useEffect(() => {
+    if (params.get("reason") === "auth") {
+      toast.error("Please login to access the dashboard");
+    }
+  }, [params]);
 
   const form = useForm({
     defaultValues: {
@@ -61,6 +73,7 @@ export function LoginForm({
 
       toast.success("User Login Successfully", { id: toastId });
       console.log("Logged in user:", result.data.data);
+      redirect(redirectUrl)
     }
 
 

@@ -25,7 +25,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface MenuItem {
   title: string;
@@ -59,10 +59,10 @@ interface Navbar1Props {
 
 const Navbar = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    url: "/",
+    src: "/logo.png",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "/skill-bridge.png",
   },
   menu = [
     { title: "Home", url: "/" },
@@ -88,6 +88,7 @@ const Navbar = ({
 }: Navbar1Props) => {
   const router = useRouter();
   const { user: userInfo, logout } = useAuth();
+  const pathname = usePathname();
 
   if(userInfo){
     menu.push({
@@ -113,13 +114,10 @@ const Navbar = ({
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
               <img
-                src={logo.src}
+                src={logo.title}
                 className="max-h-8 dark:invert"
                 alt={logo.alt}
               />
-              <span className="text-lg font-semibold tracking-tighter">
-                {logo.title}
-              </span>
             </a>
             <div className="flex items-center">
               <NavigationMenu>
@@ -140,10 +138,10 @@ const Navbar = ({
             ) : (
               <>
                 <Button asChild variant="outline" size="sm">
-                  <a href={auth.login.url}>{auth.login.title}</a>
+                  <a href={`${auth.login.url}?redirectUrl=${pathname}`}>{auth.login.title}</a>
                 </Button>
                 <Button asChild size="sm">
-                  <a href={auth.signup.url}>{auth.signup.title}</a>
+                  <a href={`${auth.signup.url}?redirectUrl=${pathname}`}>{auth.signup.title}</a>
                 </Button>
               </>
             )}
@@ -194,10 +192,10 @@ const Navbar = ({
                     ) : (
                       <>
                         <Button asChild variant="outline">
-                          <a href={auth.login.url}>{auth.login.title}</a>
+                          <a href={`${auth.login.url}?redirectUrl=${pathname}`}>{auth.login.title}</a>
                         </Button>
                         <Button asChild>
-                          <a href={auth.signup.url}>{auth.signup.title}</a>
+                          <a href={`${auth.signup.url}?redirectUrl=${pathname}`}>{auth.signup.title}</a>
                         </Button>
                       </>
                     )}

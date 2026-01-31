@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/roles";
 import { authServerService } from "@/services/auth.server.service";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
     admin,
@@ -21,7 +22,7 @@ export default async function DashboardLayout({
 
     const userInfo = await authServerService.getSession();
     if (!userInfo) {
-        return <div>Please login to access the dashboard</div>
+        redirect("/login?reason=auth");
     }
     let content;
     switch (userInfo.role) {
