@@ -13,6 +13,16 @@ export type TutorProfile = {
   updatedAt: string;
 };
 
+export type CreateTutorProfilePayload = {
+  bio: string;
+  hourlyRate: number;
+  experience: number;
+  subjects: string[];
+  categoryId: string;
+};
+
+export type UpdateTutorProfilePayload = Partial<CreateTutorProfilePayload>;
+
 export type TutorProfileFormValues = {
   bio: string;
   hourlyRate: number;
