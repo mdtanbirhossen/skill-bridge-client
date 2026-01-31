@@ -42,8 +42,8 @@ const formSchema = z.object({
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { login } = useAuth();
-  const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get("redirectUrl") || "/"
+  // const searchParams = useSearchParams()
+  // const redirectUrl = searchParams.get("redirectUrl") || "/"
   const form = useForm({
     defaultValues: {
       name: "",
@@ -83,7 +83,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       toast.success(`${value.role} Registered Successfully`, { id: toastId });
       console.log("Registered user:", result.data.data.user);
 
-      redirect(redirectUrl)
+      // redirect(redirectUrl)
     }
   });
 

@@ -36,16 +36,15 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const { user: userInfo, setUser, logout, token, login } = useAuth();
-  const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get("redirectUrl") || "/"
+  // const params = useSearchParams();
+  // const redirectUrl = params.get("redirectUrl") || "/"
 
-  const params = useSearchParams();
 
-  useEffect(() => {
-    if (params.get("reason") === "auth") {
-      toast.error("Please login to access the dashboard");
-    }
-  }, [params]);
+  // useEffect(() => {
+  //   if (params.get("reason") === "auth") {
+  //     toast.error("Please login to access the dashboard");
+  //   }
+  // }, [params]);
 
   const form = useForm({
     defaultValues: {
@@ -73,7 +72,7 @@ export function LoginForm({
 
       toast.success("User Login Successfully", { id: toastId });
       console.log("Logged in user:", result.data.data);
-      redirect(redirectUrl)
+      // redirect(redirectUrl)
     }
 
 
