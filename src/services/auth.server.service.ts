@@ -7,7 +7,7 @@ export const authServerService = {
   getMe: () => apiFetchServer("/auth/me"),
   getSession: async (): Promise<JwtUserPayload | null> => {
     const cookieStore = await cookies();
-    const tokenCookie = cookieStore.get("auth-token");
+    const tokenCookie = cookieStore.get("token");
 
     if (!tokenCookie) return null;
 

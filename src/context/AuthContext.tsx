@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Load user and token from cookies
   useEffect(() => {
-    const cookieToken = Cookies.get("auth-token");
+    const cookieToken = Cookies.get("token");
     const cookieUser = Cookies.get("user");
     if (cookieToken) setToken(cookieToken);
     if (cookieUser) setUser(JSON.parse(cookieUser));
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(token);
 
     // Save in cookies
-    Cookies.set("auth-token", token, { expires: 7 }); // expires in 7 days
+    Cookies.set("token", token, { expires: 7 });
     Cookies.set("user", JSON.stringify(userData), { expires: 7 });
   };
 
