@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     setUser(null);
     setToken(null);
-    Cookies.remove("auth-token");
+    Cookies.remove("token");
     Cookies.remove("user");
   };
 
