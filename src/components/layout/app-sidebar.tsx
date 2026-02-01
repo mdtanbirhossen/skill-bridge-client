@@ -21,6 +21,7 @@ import { studentRoutes } from "@/routes/studentRoutes";
 import { tutorRoutes } from "@/routes/tutorRoutes";
 import { NavUser } from "../ui/nav-user";
 import { publicRoutes } from "@/routes/publicRoutes";
+import Image from "next/image";
 
 export function AppSidebar({
   user,
@@ -48,7 +49,7 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarContent>
-        <SidebarHeader>Skill Bridge</SidebarHeader>
+        <SidebarHeader><Image src={'/skill-bridge.png'} width={150} height={50} alt="" /></SidebarHeader>
         {publicRoutes.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>

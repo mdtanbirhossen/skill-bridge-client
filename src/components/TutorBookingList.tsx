@@ -23,11 +23,11 @@ import { bookingClientService } from "@/services/booking.client.service";
 import { toast } from "sonner";
 import Link from "next/link";
 
-interface AdminBookingListProps {
+interface TutorBookingListProps {
     bookings: Booking[];
 }
 
-const AdminBookingList = ({ bookings }: AdminBookingListProps) => {
+const TutorBookingList = ({ bookings }: TutorBookingListProps) => {
     const handleStatusChange = async (
         bookingId: string,
         status: string
@@ -58,7 +58,6 @@ const AdminBookingList = ({ bookings }: AdminBookingListProps) => {
                         <TableHead>Date</TableHead>
                         <TableHead>Time</TableHead>
                         <TableHead>Student</TableHead>
-                        <TableHead>Tutor</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -68,7 +67,7 @@ const AdminBookingList = ({ bookings }: AdminBookingListProps) => {
                         <TableRow key={booking.id}>
                             <TableCell>{booking.id.slice(0, 8)}...</TableCell>
 
-
+                            {/* ✅ STATUS DROPDOWN */}
                             <TableCell>
                                 <Select
                                     defaultValue={booking.status}
@@ -113,25 +112,8 @@ const AdminBookingList = ({ bookings }: AdminBookingListProps) => {
                                 </div>
                             </TableCell>
 
-                            {/* Tutor */}
-                            <TableCell>
-                                <div className="flex items-center gap-2">
-                                    {booking.tutor?.user?.image && (
-                                        <Image
-                                            src={booking.tutor.user.image}
-                                            alt={booking.tutor.user.name}
-                                            width={30}
-                                            height={30}
-                                            className="rounded-full"
-                                        />
-                                    )}
-                                    <span>{booking.tutor?.user?.name}</span>
-                                </div>
-                            </TableCell>
-
                             <TableCell className="space-x-2">
-
-                                <Link href={`/admin/bookings/${booking.id}`}>
+                                <Link href={`/tutor/teaching-sessions/${booking.id}`}>
                                     <Button size="sm">
                                         <Eye />
                                     </Button>
@@ -145,4 +127,4 @@ const AdminBookingList = ({ bookings }: AdminBookingListProps) => {
     );
 };
 
-export default AdminBookingList;
+export default TutorBookingList;

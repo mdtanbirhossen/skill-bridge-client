@@ -30,7 +30,7 @@ export function TutorCard({ tutor }: { tutor: Tutor }) {
                         <span className="text-sm font-normal text-muted-foreground">
                             ${tutor.hourlyRate}/hr
                         </span>
-                        <Badge variant="secondary">{tutor.category.name}</Badge>
+                        <Badge variant="secondary">{tutor?.category?.name}</Badge>
                     </div>
                 </CardTitle>
             </CardHeader>
