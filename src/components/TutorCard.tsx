@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Tutor } from "@/types/tutor.types";
+import Link from "next/link";
 
 
 export function TutorCard({ tutor }: { tutor: Tutor }) {
@@ -53,7 +54,7 @@ export function TutorCard({ tutor }: { tutor: Tutor }) {
                 </p>
             </CardContent>
             <CardFooter>
-                <Button size={"sm"} className="w-full ">View Tutor Profile</Button>
+                <Link href={`/tutors/${tutor.id}`} className="w-full"><Button size={"sm"} className="w-full ">View Tutor Profile</Button></Link>
             </CardFooter>
         </Card>
     );

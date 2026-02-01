@@ -83,19 +83,19 @@ const TutorList = ({ tutors, categories }: Props) => {
                     ))}
                 </TabsList>
 
-                {/* All Tutors */}
+                {/* All */}
                 <TabsContent value="All">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3  gap-2">
                         {filteredTutors.map((tutor) => (
                             <TutorCard key={tutor.id} tutor={tutor} />
                         ))}
                     </div>
                 </TabsContent>
 
-                {/* Category-wise Tutors */}
+                {/* Category-wise */}
                 {categories.map((category) => (
                     <TabsContent key={category.id} value={category.name}>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                             {(tutorsByCategory[category.name] ?? []).map((tutor) => (
                                 <TutorCard key={tutor.id} tutor={tutor} />
                             ))}

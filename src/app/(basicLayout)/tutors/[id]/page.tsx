@@ -1,8 +1,17 @@
+import { tutorService } from "@/services/tutor.service";
 
-const TutorDetailsPage = () => {
+interface TutorDetailsPageProps {
+    params: { id: string };
+}
+
+const TutorDetailsPage = async ({ params }: TutorDetailsPageProps) => {
+    const { id } = await params;
+    const data = await tutorService.getTutorById(id);
+    console.log(data)
     return (
         <div>
-            this is tutors details page
+            This is tutor details page for tutor with id: {id}
+            {JSON.stringify(data)}
         </div>
     );
 };
