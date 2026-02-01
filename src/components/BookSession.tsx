@@ -12,8 +12,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { toast } from "sonner";
-import { bookingService } from "@/services/booking.client.service";
-// import { bookingService } from "@/services/booking.client.service";
+import { bookingClientService } from "@/services/booking.client.service";
 
 type BookSessionProps = {
     tutorId: string;
@@ -42,7 +41,7 @@ const BookSession = ({ tutorId }: BookSessionProps) => {
             setLoading(true);
 
             // 🔥 API call (replace with your real service)
-            const response = await bookingService.createBooking(payload);
+            const response = await bookingClientService.createBooking(payload);
             console.log("Booking payload:", payload);
             console.log("Booking response:", response);
 
