@@ -1,7 +1,8 @@
+import TutorDetails from "@/components/TutorDetails";
 import { tutorService } from "@/services/tutor.service";
 
 interface TutorDetailsPageProps {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }
 
 const TutorDetailsPage = async ({ params }: TutorDetailsPageProps) => {
@@ -9,9 +10,8 @@ const TutorDetailsPage = async ({ params }: TutorDetailsPageProps) => {
     const data = await tutorService.getTutorById(id);
     console.log(data)
     return (
-        <div>
-            This is tutor details page for tutor with id: {id}
-            {JSON.stringify(data)}
+        <div className="max-w-7xl mx-auto px-2 md:px-5 mt-5">
+            <TutorDetails tutor={data.data} />
         </div>
     );
 };
