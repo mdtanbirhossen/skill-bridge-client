@@ -9,7 +9,7 @@ const TutorDetails = ({ tutor }: { tutor: Tutor }) => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold">{tutor.user.name}</h1>
-                    <p className="text-gray-500">{tutor.category.name}</p>
+                    <p className="text-gray-500">{tutor?.category?.name}</p>
                 </div>
 
                 <div className="text-right">

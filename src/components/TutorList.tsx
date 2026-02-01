@@ -38,7 +38,7 @@ const TutorList = ({ tutors, categories }: Props) => {
             const query = filters.search.toLowerCase();
             filtered = filtered.filter(
                 (t) =>
-                    t.category.name.toLowerCase().includes(query) ||
+                    t.category?.name.toLowerCase().includes(query) ||
                     t.bio.toLowerCase().includes(query) ||
                     t.subjects.some((sub) => sub.toLowerCase().includes(query))
             );
@@ -61,7 +61,8 @@ const TutorList = ({ tutors, categories }: Props) => {
 
     const tutorsByCategory = useMemo(() => {
         return filteredTutors.reduce<Record<string, Tutor[]>>((acc, tutor) => {
-            const category = tutor.category.name;
+            const category = tutor.category?.name;
+            if (!category) return acc;
             if (!acc[category]) acc[category] = [];
             acc[category].push(tutor);
             return acc;
