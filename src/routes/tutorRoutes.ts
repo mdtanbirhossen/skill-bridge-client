@@ -11,6 +11,11 @@ export const tutorRoutes: Route[] = [
         icon: LayoutDashboard
       },
       {
+        title: "Teaching Sessions",
+        url: "/tutor/teaching-sessions",
+        icon: LayoutDashboard
+      },
+      {
         title: "Availability",
         url: "/tutor/availability",
         icon: AlignEndVerticalIcon
