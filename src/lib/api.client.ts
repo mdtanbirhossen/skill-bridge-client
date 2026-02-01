@@ -9,6 +9,7 @@ export async function apiFetchClient(
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("token")}`,
       ...(options?.headers || {}),
     },
     ...options,
