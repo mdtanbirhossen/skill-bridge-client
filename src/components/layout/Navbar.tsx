@@ -27,6 +27,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { Role } from "@/types/user.types";
 
 interface MenuItem {
   title: string;
@@ -90,11 +91,11 @@ const Navbar = ({
   const router = useRouter();
   const { user: userInfo, logout } = useAuth();
   const pathname = usePathname();
-
+console.log("navbar user info", userInfo)
   if(userInfo){
     menu.push({
       title: "Dashboard",
-      url: userInfo.role === "admin" ? "/admin" : userInfo.role === "tutor" ? "/tutor" : "/dashboard",
+      url: userInfo.role === Role.ADMIN ? "/admin" : userInfo.role === Role.TUTOR ? "/tutor" : "/dashboard",
     })
   }
   console.log("from auth context", userInfo)
