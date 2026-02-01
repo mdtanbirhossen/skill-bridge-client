@@ -8,7 +8,6 @@ interface TutorDetailsPageProps {
 const TutorDetailsPage = async ({ params }: TutorDetailsPageProps) => {
     const { id } = await params;
     const data = await tutorService.getTutorById(id);
-    console.log(data)
     return (
         <div className="max-w-7xl mx-auto px-2 md:px-5 mt-5">
             <TutorDetails tutor={data.data} />

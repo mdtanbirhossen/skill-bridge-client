@@ -21,7 +21,6 @@ export default async function DashboardLayout({
 }) {
 
     const userInfo = await authServerService.getSession();
-    console.log("user info in layout fetch:", userInfo);
     if (!userInfo) {
         redirect("/login?reason=auth");
     }
@@ -39,7 +38,6 @@ export default async function DashboardLayout({
         default:
             content = <div>Unauthorized</div>
     }
-    console.log("user info in layout:", userInfo);
     return (
         <SidebarProvider>
             <AppSidebar user={userInfo} />

@@ -57,7 +57,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     },
     onSubmit: async ({ value }) => {
       const toastId = toast.loading(`Creating ${value.role}...`);
-      console.log(value);
       const file = value.image[0]
 
       // Upload image first
@@ -66,10 +65,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         toast.error("Image upload failed")
         return
       }
-      console.log("Image uploaded:", uploadRes.url)
-      console.log("Image uploaded:", uploadRes)
       const finalPayload = { name: value.name, email: value.email, password: value.password, role: value.role, image: uploadRes.url }
-      console.log("Final payload:", finalPayload)
       const result = await authClientService.signUp(finalPayload);
 
       if (!result.ok) {
@@ -81,8 +77,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       }
       login(result.data.data.user, result.data.data.token)
       toast.success(`${value.role} Registered Successfully`, { id: toastId });
-      console.log("Registered user:", result.data.data.user);
-
       // redirect(redirectUrl)
     }
   });

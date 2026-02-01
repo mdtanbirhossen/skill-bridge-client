@@ -4,7 +4,6 @@ export async function apiFetchClient(
   endpoint: string,
   options?: RequestInit
 ) {
-  console.log("API_URL:", API_URL);
   const res = await fetch(`${API_URL}${endpoint}`, {
     credentials: "include",
     headers: {

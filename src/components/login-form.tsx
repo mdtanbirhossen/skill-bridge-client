@@ -59,7 +59,6 @@ export function LoginForm({
       const userLoginInfo = { ...value };
 
       const result = await authClientService.signIn(userLoginInfo);
-      console.log(result)
       if (!result.ok) {
         toast.error(result.message || "Invalid credentials", { id: toastId });
 
@@ -71,7 +70,6 @@ export function LoginForm({
       login(result.data.data.user, result.data.data.token)
 
       toast.success("User Login Successfully", { id: toastId });
-      console.log("Logged in user:", result.data.data);
       // redirect(redirectUrl)
     }
 

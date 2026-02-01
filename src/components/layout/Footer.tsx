@@ -31,8 +31,6 @@ const Footer = async () => {
     else {
         routes = publicRoutes;
     }
-
-    console.log("Footer session user:", user);
     return (
         <footer className="relative text-gray-300 bg-linear-to-br from-[#2b0f3f] via-[#5b2dd8] to-[#0b1026]">
 
