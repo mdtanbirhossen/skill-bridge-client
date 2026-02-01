@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     // Save in cookies
     Cookies.set("token", token, { expires: 7 });
+    localStorage.setItem('token', token);
     Cookies.set("user", JSON.stringify(userData), { expires: 7 });
   };
 
@@ -52,7 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user,setUser, logout,login, token }}>
+    <AuthContext.Provider value={{ user, setUser, logout, login, token }}>
       {children}
     </AuthContext.Provider>
   );
