@@ -68,7 +68,7 @@ const TutorDetails = ({ tutor }: { tutor: Tutor }) => {
                     <span className="text-purple-600">${tutor.hourlyRate}</span>
                 </p>
 
-                <BookSession />
+                <BookSession tutorId={tutor.id} />
             </div>
         </div>
     );
