@@ -26,13 +26,14 @@ export enum Role {
 }
 
 export type User = {
+  id: string;
   name: string;
   email: string;
-  role?: Role;
+  role: Role;
   phone?: string;
   image?: string;
-  emailVerified?: boolean;
+  emailVerified: boolean;
   isBanned?: boolean;
-  createdAt?: string;
+  createdAt: string;
   updatedAt?: string;
 };

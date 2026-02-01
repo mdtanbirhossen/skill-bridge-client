@@ -1,3 +1,4 @@
+import UserList from "@/components/UserList";
 import { adminService } from "@/services/admin.service";
 
 const UsersListPage = async () => {
@@ -5,7 +6,7 @@ const UsersListPage = async () => {
     console.log(data)
     return (
         <div>
-            this is admin users list UsersListPage
+            <UserList users={data.data.data} />
         </div>
     );
 };

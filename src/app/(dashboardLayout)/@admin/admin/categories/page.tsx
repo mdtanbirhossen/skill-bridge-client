@@ -1,4 +1,5 @@
 
+import CategoryList from "@/components/categoryList";
 import { categoryService } from "@/services/category.service";
 
 const CategoriesListPage = async() => {
@@ -6,7 +7,7 @@ const CategoriesListPage = async() => {
     console.log(data)
     return (
         <div>
-            
+            <CategoryList categories={data.data.data} />
         </div>
     );
 };
