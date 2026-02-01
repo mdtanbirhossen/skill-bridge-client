@@ -1,11 +1,12 @@
-import { adminService } from "@/services/admin.service";
+
+import { categoryService } from "@/services/category.service";
 
 const CategoriesListPage = async() => {
-    const data = await adminService.getAllCategories();
+    const data = await categoryService.getAllCategories();
     console.log(data)
     return (
         <div>
-            this is admin categories page
+            
         </div>
     );
 };

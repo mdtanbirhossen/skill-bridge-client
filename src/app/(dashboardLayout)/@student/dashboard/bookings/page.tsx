@@ -1,13 +1,15 @@
+import StudentBookingList from "@/components/StudentBookingList";
+import { bookingServerService } from "@/services/booking.server.service";
 
-const StudentBookingsPage
- = () => {
+const StudentBookingsPage = async() => {
+    const data = await bookingServerService.getAllBookings();
     return (
         <div>
-            this is dashboard bookings StudentBookingsPage
-            
+            <StudentBookingList bookings={data.data.data} />
+
         </div>
     );
 };
 
 export default StudentBookingsPage
-;
+    ;

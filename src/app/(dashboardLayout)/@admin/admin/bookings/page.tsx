@@ -1,11 +1,12 @@
-import { adminService } from "@/services/admin.service";
+
+import AdminBookingList from "@/components/AdminBookingList";
+import { bookingServerService } from "@/services/booking.server.service";
 
 const BookingsListPage = async () => {
-    const data= await adminService.getAllBookings();
-    console.log(data)
+    const data = await bookingServerService.getAllBookings();
     return (
         <div>
-            this is admin bookings BookingsListPage
+            <AdminBookingList bookings={data.data.data} />
 
         </div>
     );
