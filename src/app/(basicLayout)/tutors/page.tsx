@@ -1,11 +1,19 @@
+import TutorList from "@/components/TutorList";
+import { categoryService } from "@/services/category.service";
 import { tutorService } from "@/services/tutor.service";
 
-const TutorPage = async() => {
-    const data = await tutorService.getAllTutors();
-    console.log("tutors data", data);
+const TutorPage = async () => {
+    const [{ data: tutorRes }, { data: categoryRes }] = await Promise.all([
+        tutorService.getAllTutors(),
+        categoryService.getAllCategories(),
+    ]);
+
     return (
-        <div>
-            this is tutors page
+        <div className="max-w-7xl mx-auto px-2 md:px-5">
+            <TutorList
+                tutors={tutorRes.data}
+                categories={categoryRes.data}
+            />
         </div>
     );
 };

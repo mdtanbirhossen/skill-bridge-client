@@ -13,6 +13,23 @@ export type TutorProfile = {
   updatedAt: string;
 };
 
+export type Tutor = {
+  id: string;
+  bio: string;
+  hourlyRate: number;
+  experience: number;
+  rating: number;
+  subjects: string[];
+  user: {
+    name: string;
+    email: string;
+    image: string | null;
+  };
+  category: {
+    name: string;
+  };
+};
+
 export type CreateTutorProfilePayload = {
   bio: string;
   hourlyRate: number;
@@ -29,4 +46,14 @@ export type TutorProfileFormValues = {
   experience: number;
   subjects: string[];
   categoryId: string;
+};
+
+
+export type GetTutorParams = {
+  search?: string;
+  category?: string;
+  sortBy?: "hourlyRate" | "rating";
+  sortOrder?: "asc" | "desc";
+  page?: number;
+  limit?: number;
 };

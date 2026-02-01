@@ -37,7 +37,7 @@ const formSchema = z.object({
   role: z.enum(["STUDENT", "TUTOR"]),
   image: z
     .array(z.instanceof(File))
-    .min(1, "Please upload a medicine image")
+    .min(1, "Please upload a profile image")
 });
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
@@ -175,7 +175,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel>Medicine Image</FieldLabel>
+                    <FieldLabel>Profile Image</FieldLabel>
                     <Input
                       type="file"
                       accept="image/*"
