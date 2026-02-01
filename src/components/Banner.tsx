@@ -5,7 +5,7 @@ const Banner = ({ className }: { className?: string }) => {
                 {/* Text Content */}
                 <div className="md:w-1/2">
                     <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-                        SkillBridge 🎓
+                        SkillBridge
                     </h1>
                     <p className="text-lg md:text-xl mb-6">
                         Connect with Expert Tutors, Learn Anything

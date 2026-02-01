@@ -91,14 +91,14 @@ const Navbar = ({
   const router = useRouter();
   const { user: userInfo, logout } = useAuth();
   const pathname = usePathname();
-console.log("navbar user info", userInfo)
+// console.log("navbar user info", userInfo)
   if(userInfo){
     menu.push({
       title: "Dashboard",
       url: userInfo.role === Role.ADMIN ? "/admin" : userInfo.role === Role.TUTOR ? "/tutor" : "/dashboard",
     })
   }
-  console.log("from auth context", userInfo)
+  // console.log("from auth context", userInfo)
   const handleLogout = async () => {
     await fetch("/api/auth/logout", {
       method: "POST",
