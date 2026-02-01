@@ -1,3 +1,7 @@
+import { Availability } from "./availability.types";
+import { Review } from "./review.types";
+import { User } from "./user.types";
+
 export type TutorProfile = {
   id: string;
   bio: string;
@@ -20,11 +24,9 @@ export type Tutor = {
   experience: number;
   rating: number;
   subjects: string[];
-  user: {
-    name: string;
-    email: string;
-    image: string | null;
-  };
+  user: User;
+  availability?: Availability[];
+  reviews?: Review[];
   category: {
     name: string;
   };
@@ -47,7 +49,6 @@ export type TutorProfileFormValues = {
   subjects: string[];
   categoryId: string;
 };
-
 
 export type GetTutorParams = {
   search?: string;

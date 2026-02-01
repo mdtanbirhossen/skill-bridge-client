@@ -1,6 +1,6 @@
 export type Availability = {
   id: string;
-  day: string;
+  day: WeekDay;
   startTime: string;
   endTime: string;
 
@@ -24,13 +24,13 @@ export type CreateAvailabilityFormValues = {
 };
 
 export type CreateAvailabilityPayload = {
-  day: string;
+  day: WeekDay;
   startTime: string;
   endTime: string;
 };
 
 export type UpdateAvailabilityFormValues = {
-  day?: string;
+  day?: WeekDay;
   startTime?: string;
   endTime?: string;
 };

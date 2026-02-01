@@ -5,6 +5,13 @@ export enum BookingStatus {
 }
 
 
+export type bookingPayload = {
+  date: string;
+  startTime: string;
+  endTime: string;
+  tutorId: string;
+}
+
 export type Booking = {
   id: string;
   status: BookingStatus;

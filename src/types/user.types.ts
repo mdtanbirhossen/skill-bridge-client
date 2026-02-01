@@ -19,11 +19,17 @@ export type CreateUserInput = {
   isBanned?: boolean;
 };
 
+export enum Role {
+  STUDENT = "STUDENT",
+  TUTOR = "TUTOR",
+  ADMIN = "ADMIN",
+}
+
 export type User = {
   name: string;
   email: string;
   password: string;
-  role?: string;
+  role?: Role;
   phone?: string;
   image?: string;
   emailVerified?: boolean;
