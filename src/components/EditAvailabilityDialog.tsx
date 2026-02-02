@@ -11,15 +11,32 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit } from "lucide-react";
-import { Availability } from "@/types/availability.types";
+import { Availability, WeekDay } from "@/types/availability.types";
 import { useState } from "react";
 import { availabilityClientService } from "@/services/availability.client.service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+} from "@/components/ui/select";
 
 interface Props {
     availability: Availability;
 }
+
+const weekdays: WeekDay[] = [
+    WeekDay.MONDAY,
+    WeekDay.TUESDAY,
+    WeekDay.WEDNESDAY,
+    WeekDay.THURSDAY,
+    WeekDay.FRIDAY,
+    WeekDay.SATURDAY,
+    WeekDay.SUNDAY,
+];
 
 const EditAvailabilityDialog = ({ availability }: Props) => {
     const router = useRouter();
@@ -32,28 +49,40 @@ const EditAvailabilityDialog = ({ availability }: Props) => {
         endTime: availability.endTime,
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
     };
 
+    const handleDayChange = (value: string) => {
+        setFormData({
+            ...formData,
+            day: value as WeekDay,
+        });
+    };
+
     const handleUpdate = async () => {
+        if (!formData.day || !formData.startTime || !formData.endTime) {
+            toast.error("All fields are required");
+            return;
+        }
+
         try {
             setLoading(true);
 
             await availabilityClientService.updateAvailabilityById(
                 availability.id,
-                formData,
+                formData
             );
 
             toast.success("Availability updated");
             setOpen(false);
 
-            // Refresh server component data
-            router.refresh();
+            router.refresh(); // Refresh server component
         } catch (error) {
+            console.error(error);
             toast.error("Update failed");
         } finally {
             setLoading(false);
@@ -74,27 +103,40 @@ const EditAvailabilityDialog = ({ availability }: Props) => {
                 </DialogHeader>
 
                 <div className="space-y-3">
+                    {/* Weekday select */}
+                    <Select value={formData.day} onValueChange={handleDayChange}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select Day" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {weekdays.map((day) => (
+                                <SelectItem key={day} value={day}>
+                                    {day.charAt(0) + day.slice(1).toLowerCase()} {/* nicer display */}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    {/* Start Time */}
                     <Input
-                        name="day"
-                        value={formData.day}
-                        onChange={handleChange}
-                        placeholder="Day"
-                    />
-                    <Input
+                        type="time"
                         name="startTime"
                         value={formData.startTime}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                         placeholder="Start Time"
                     />
+
+                    {/* End Time */}
                     <Input
+                        type="time"
                         name="endTime"
                         value={formData.endTime}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                         placeholder="End Time"
                     />
                 </div>
 
-                <DialogFooter>
+                <DialogFooter className="flex gap-2">
                     <Button
                         variant="outline"
                         onClick={() => setOpen(false)}

@@ -9,4 +9,10 @@ export const availabilityClientService = {
       method: "PUT",
       body: JSON.stringify(payload),
     }),
+
+  createAvailability: (payload: CreateAvailabilityPayload) =>
+    apiFetchClient(`/availability`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
