@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import BookSession from "./BookSession";
 
 const TutorDetails = ({ tutor }: { tutor: Tutor }) => {
+    console.log(tutor)
     return (
         <div className=" space-y-6">
             {/* Header */}
@@ -69,6 +70,47 @@ const TutorDetails = ({ tutor }: { tutor: Tutor }) => {
                 </p>
 
                 <BookSession tutorId={tutor.id} />
+            </div>
+            <div className="border-t pt-6">
+                <h2 className="text-xl font-semibold mb-4">
+                    Reviews ({tutor.reviews?.length || 0})
+                </h2>
+
+                {tutor.reviews && tutor.reviews.length > 0 ? (
+                    <div className="space-y-4">
+                        {tutor.reviews.map((review) => (
+                            <div
+                                key={review.id}
+                                className="border rounded-lg p-4 bg-gray-50"
+                            >
+                                {/* Rating */}
+                                <div className="flex items-center gap-1 mb-2">
+                                    {[...Array(5)].map((_, index) => (
+                                        <Star
+                                            key={index}
+                                            className={`w-4 h-4 ${index < review.rating
+                                                ? "text-yellow-400 fill-yellow-400"
+                                                : "text-gray-300"
+                                                }`}
+                                        />
+                                    ))}
+                                </div>
+
+                                {/* Comment */}
+                                <p className="text-gray-700 mb-2">
+                                    {review.comment || "No comment provided."}
+                                </p>
+
+                                {/* Date */}
+                                <p className="text-sm text-gray-500">
+                                    {new Date(review.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-gray-500">No reviews yet.</p>
+                )}
             </div>
         </div>
     );
