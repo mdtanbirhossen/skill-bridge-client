@@ -1,3 +1,5 @@
+import { Tutor } from "./tutor.types";
+
 export interface JwtUserPayload {
   id: string;
   email: string;
@@ -32,8 +34,16 @@ export type User = {
   role: Role;
   phone?: string;
   image?: string;
-  emailVerified: boolean;
   isBanned?: boolean;
   createdAt: string;
   updatedAt?: string;
+  tutorProfile?: Tutor;
+};
+
+export type UpdateUserPayload = {
+  name?: string;
+  phone?: string;
+  image?: string;
+  role?: Role;
+  isBanned?: boolean;
 };

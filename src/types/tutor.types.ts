@@ -23,9 +23,9 @@ export type Tutor = {
   hourlyRate: number;
   experience: number;
   rating: number;
+  subjects: string[];
   userId: string;
   categoryId: string;
-  subjects: string[];
   user: User;
   availability?: Availability[];
   reviews?: Review[];

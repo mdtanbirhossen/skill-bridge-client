@@ -1,5 +1,5 @@
 import { apiFetchClient } from "@/lib/api.client";
-import { CreateUserInput } from "@/types/user.types";
+import { CreateUserInput, UpdateUserPayload } from "@/types/user.types";
 
 export const authClientService = {
   signUp: (payload: CreateUserInput) =>
@@ -14,8 +14,9 @@ export const authClientService = {
       body: JSON.stringify(payload),
     }),
 
-  logout: () =>
-    apiFetchClient("/auth/logout", {
-      method: "POST",
+  updateUser: (userId: string, payload: UpdateUserPayload) =>
+    apiFetchClient(`/auth/${userId}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
     }),
 };
