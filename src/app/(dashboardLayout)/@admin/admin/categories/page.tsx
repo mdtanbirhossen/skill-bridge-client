@@ -1,5 +1,6 @@
 
 import CategoryList from "@/components/categoryList";
+import CreateCategoryDialog from "@/components/CreateCategoryDialog";
 import { categoryService } from "@/services/category.service";
 
 const CategoriesListPage = async() => {
@@ -7,6 +8,7 @@ const CategoriesListPage = async() => {
     console.log(data)
     return (
         <div>
+            <CreateCategoryDialog />
             <CategoryList categories={data.data.data} />
         </div>
     );
