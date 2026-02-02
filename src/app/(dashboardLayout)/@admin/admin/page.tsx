@@ -20,7 +20,7 @@ const AdminDashboardPage = async () => {
 
     return (
         <div className="p-6 space-y-6">
-            <h1 className="text-2xl font-bold">Tutor Dashboard</h1>
+            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
             <DashboardStats stats={stats} />
         </div>
     );
