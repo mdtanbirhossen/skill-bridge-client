@@ -104,9 +104,9 @@ const Navbar = ({
     await fetch("/api/auth/logout", {
       method: "POST",
     });
+    logout();
     router.refresh();
     // router.push("/login");
-    logout();
   };
   return (
     <section className={cn("py-4 px-2 md:px-5", className)}>

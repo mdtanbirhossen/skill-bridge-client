@@ -23,7 +23,7 @@ import { toast } from "sonner"
 import { authClientService } from "@/services/auth.client.service"
 import { useForm } from "@tanstack/react-form";
 import { useAuth } from "@/context/AuthContext"
-import { redirect, useSearchParams } from "next/navigation"
+import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 
 const formSchema = z.object({
@@ -35,6 +35,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const  router = useRouter()
   const { user: userInfo, setUser, logout, token, login } = useAuth();
   // const params = useSearchParams();
   // const redirectUrl = params.get("redirectUrl") || "/"
@@ -71,6 +72,7 @@ export function LoginForm({
 
       toast.success("User Login Successfully", { id: toastId });
       // redirect(redirectUrl)
+      router.push('/')
     }
 
 

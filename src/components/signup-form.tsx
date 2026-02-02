@@ -22,7 +22,7 @@ import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, Sele
 import { authClientService } from "@/services/auth.client.service"
 import { imageHostingService } from "@/services/imageHosting.service"
 import { useAuth } from "@/context/AuthContext"
-import { redirect, useSearchParams } from "next/navigation"
+import { redirect, useRouter, useSearchParams } from "next/navigation"
 
 
 const userRoles = [
@@ -42,6 +42,7 @@ const formSchema = z.object({
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { login } = useAuth();
+    const  router = useRouter()
   // const searchParams = useSearchParams()
   // const redirectUrl = searchParams.get("redirectUrl") || "/"
   const form = useForm({
@@ -78,6 +79,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       login(result.data.data.user, result.data.data.token)
       toast.success(`${value.role} Registered Successfully`, { id: toastId });
       // redirect(redirectUrl)
+      router.push('/')
     }
   });
 
