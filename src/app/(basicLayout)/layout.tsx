@@ -9,8 +9,10 @@ export default function BasicLayout({
     return (
         <div className="">
             <Navbar />
-            {children}
-            <Footer/>
+            <main className="min-h-[calc(100vh-365px)] ">
+                {children}
+            </main>
+            <Footer />
         </div>
     );
 }
