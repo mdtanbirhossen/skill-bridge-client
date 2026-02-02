@@ -20,6 +20,7 @@ const StudentDashboardPage = async () => {
         <div className="p-6 space-y-6">
             <h1 className="text-2xl font-bold">Student Dashboard</h1>
             <DashboardStats stats={stats} />
+            <h2 className="text-xl font-bold">Upcoming Sessions</h2>
             <DashBookingList bookings={upcomingBookings} />
         </div>
     );

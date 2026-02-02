@@ -1,8 +1,13 @@
 import DashboardStats, { StatItem } from "@/components/DashboardStats";
+import DashBookingList from "@/components/DashBookingList";
+import { bookingServerService } from "@/services/booking.server.service";
 import { statisticsService } from "@/services/statistics.service";
+import { Booking, BookingStatus } from "@/types/booking.types";
 
 const TutorDashboardPage = async () => {
   const tutorStats = await statisticsService.getTutorStats();
+  const bookingRes = await bookingServerService.getAllBookings();
+  const upcomingBookings = bookingRes?.data?.data?.filter((booking: Booking) => booking.status === BookingStatus.CONFIRMED)
   console.log(tutorStats)
   const stats: StatItem[] = [
     { title: "Total Bookings", value: tutorStats.data?.data?.totalBookings || 0 },
@@ -18,6 +23,8 @@ const TutorDashboardPage = async () => {
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">Tutor Dashboard</h1>
       <DashboardStats stats={stats} />
+      <h2 className="text-xl font-bold">Upcoming Sessions</h2>
+      <DashBookingList bookings={upcomingBookings} />
     </div>
   );
 };
