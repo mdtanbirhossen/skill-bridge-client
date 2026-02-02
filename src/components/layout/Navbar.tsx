@@ -1,6 +1,6 @@
 "use client"
 
-import { Menu,} from "lucide-react";
+import { Menu, } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -28,6 +28,7 @@ import { useAuth } from "@/context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Role } from "@/types/user.types";
+import { ProfileDropdown } from "../ProfileDropdown";
 
 interface MenuItem {
   title: string;
@@ -80,7 +81,7 @@ const Navbar = ({
       title: "Contact Us",
       url: "/contact-us",
     },
-    
+
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -91,8 +92,8 @@ const Navbar = ({
   const router = useRouter();
   const { user: userInfo, logout } = useAuth();
   const pathname = usePathname();
-// console.log("navbar user info", userInfo)
-  if(userInfo){
+  // console.log("navbar user info", userInfo)
+  if (userInfo) {
     menu.push({
       title: "Dashboard",
       url: userInfo.role === Role.ADMIN ? "/admin" : userInfo.role === Role.TUTOR ? "/tutor" : "/dashboard",
@@ -132,9 +133,7 @@ const Navbar = ({
           <div className="flex gap-2">
             {userInfo ? (
               <>
-                <span className="text-sm font-medium text-muted-foreground">
-                  Hi, {userInfo.email}
-                </span>
+                <ProfileDropdown handleLogout={handleLogout} user={userInfo} />
                 <Button onClick={handleLogout}>Logout</Button>
               </>
             ) : (
@@ -161,51 +160,54 @@ const Navbar = ({
                 alt={logo.alt}
               />
             </Link>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      />
-                    </Link>
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
+            <div className="flex gap-2 items-center justify-center">
+              {userInfo && <ProfileDropdown handleLogout={handleLogout} user={userInfo} />}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <Link href={logo.url} className="flex items-center gap-2">
+                        <img
+                          src={logo.src}
+                          className="max-h-8 dark:invert"
+                          alt={logo.alt}
+                        />
+                      </Link>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-6 p-4">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="flex w-full flex-col gap-4"
+                    >
+                      {menu.map((item) => renderMobileMenuItem(item))}
+                    </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    {userInfo ? (
-                      <Button onClick={handleLogout}>Logout</Button>
-                    ) : (
-                      <>
-                        <Button asChild variant="outline">
-                          <Link href={`${auth.login.url}?redirectUrl=${pathname}`}>{auth.login.title}</Link>
-                        </Button>
-                        <Button asChild>
-                          <Link href={`${auth.signup.url}?redirectUrl=${pathname}`}>{auth.signup.title}</Link>
-                        </Button>
-                      </>
-                    )}
+                    <div className="flex flex-col gap-3">
+                      {userInfo ? (
+                        <Button onClick={handleLogout}>Logout</Button>
+                      ) : (
+                        <>
+                          <Button asChild variant="outline">
+                            <Link href={`${auth.login.url}?redirectUrl=${pathname}`}>{auth.login.title}</Link>
+                          </Button>
+                          <Button asChild>
+                            <Link href={`${auth.signup.url}?redirectUrl=${pathname}`}>{auth.signup.title}</Link>
+                          </Button>
+                        </>
+                      )}
+                    </div>
+
                   </div>
-
-                </div>
-              </SheetContent>
-            </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>
