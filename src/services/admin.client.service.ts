@@ -1,13 +1,12 @@
-import { apiFetchServer } from "@/lib/api.server";
+import { apiFetchClient } from "@/lib/api.client";
 import { Role } from "@/types/user.types";
 
-export const adminService = {
-  getAllUsers: () => apiFetchServer("/user"),
+export const adminClientService = {
   updateUserById: (
     userId: string,
     payload: { isBanned?: boolean; role?: Role },
   ) =>
-    apiFetchServer(`/user/${userId}`, {
+    apiFetchClient(`/user/${userId}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     }),

@@ -1,5 +1,3 @@
-"use client";
-
 import {
     Table,
     TableBody,
@@ -10,7 +8,8 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { User } from "@/types/user.types";
-import { Badge } from "@/components/ui/badge";
+import UserBanSelect from "./UserBanSelect";
+import UserRoleSelect from "./UserRoleSelect";
 
 interface UserListProps {
     users: User[];
@@ -32,7 +31,7 @@ const UserList = ({ users }: UserListProps) => {
                 </TableHeader>
 
                 <TableBody>
-                    {users.map((user,index) => (
+                    {users.map((user, index) => (
                         <TableRow key={user.id}>
                             {/* User info */}
                             <TableCell>{index + 1}</TableCell>
@@ -67,24 +66,21 @@ const UserList = ({ users }: UserListProps) => {
 
                             {/* Role */}
                             <TableCell>
-                                <Badge
-                                    variant={
-                                        user.role === "ADMIN"
-                                            ? "destructive"
-                                            : user.role === "TUTOR"
-                                                ? "default"
-                                                : "secondary"
-                                    }
-                                >
-                                    {user.role}
-                                </Badge>
+                                <UserRoleSelect
+                                    userId={user.id}
+                                    role={user.role}
+                                />
+                            </TableCell>
+
+
+                            <TableCell>
+                                <UserBanSelect
+                                    userId={user.id}
+                                    isBanned={user.isBanned as boolean}
+                                />
                             </TableCell>
 
                             {/* Created date */}
-                            <TableCell>
-                                {user.isBanned? 'Yes' : 'No'}
-                            </TableCell>
-
                             <TableCell>
                                 {new Date(user.createdAt).toLocaleDateString()}
                             </TableCell>
