@@ -74,7 +74,7 @@ const UserProfile = ({ user, categories }: { user: User, categories: Category[] 
                     </div>
                 )}
                 <UserProfileUpdate user={user} />
-                {!user.tutorProfile && <TutorProfileUpdate tutor={user.tutorProfile} categories={categories} />}
+                {user.role === "TUTOR" && !user.tutorProfile && <TutorProfileUpdate tutor={user.tutorProfile} categories={categories} />}
             </div>
 
             {/* Tutor Info (if exists) */}
