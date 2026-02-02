@@ -1,5 +1,3 @@
-"use client";
-
 import {
     Table,
     TableBody,
@@ -8,9 +6,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
-import { Edit } from "lucide-react";
 import { Category } from "@/types/category.types";
+import EditCategoryDialog from "./EditCategoryDialog";
 
 interface CategoryListProps {
     categories: Category[];
@@ -37,11 +34,10 @@ const CategoryList = ({ categories }: CategoryListProps) => {
                             <TableCell>{category.name}</TableCell>
                             <TableCell>{category.createdAt}</TableCell>
                             <TableCell className="space-x-2">
-                                <div >
-                                    <Button size="sm">
-                                        <Edit />
-                                    </Button>
-                                </div>
+                                <EditCategoryDialog
+                                    categoryId={category.id}
+                                    name={category.name}
+                                />
                             </TableCell>
                         </TableRow>
                     ))}
