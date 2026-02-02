@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Delete, Edit, Eye, Link } from "lucide-react";
+import { Delete, Edit, Eye, Star } from "lucide-react";
 import { bookingClientService } from "@/services/booking.client.service";
 import { toast } from "sonner";
 import {
@@ -21,6 +21,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
+import AddReviewDialog from "./AddReviewDialog";
 
 interface StudentBookingListProps {
     bookings: Booking[];
@@ -43,7 +45,7 @@ const StudentBookingList = ({ bookings }: StudentBookingListProps) => {
             toast.success(response.message || "Status updated successfully");
         } catch (error) {
             console.error(error);
-            optional: toast.error("Failed to update status")
+            toast.error("Failed to update status")
         }
     };
     return (
@@ -57,6 +59,7 @@ const StudentBookingList = ({ bookings }: StudentBookingListProps) => {
                         <TableHead>Time</TableHead>
                         <TableHead>Tutor</TableHead>
                         <TableHead>Subjects</TableHead>
+                        <TableHead>Review</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -103,6 +106,23 @@ const StudentBookingList = ({ bookings }: StudentBookingListProps) => {
                             </TableCell>
                             <TableCell>
                                 {booking?.tutor?.subjects.join(", ")}
+                            </TableCell>
+                            <TableCell>
+                                {booking.status === "COMPLETED" ? (
+                                    booking.review ? (
+                                        <span className="flex items-center">
+                                            Reviewed: {booking.review.rating}
+                                            <Star className="ml-1 fill-yellow-400 text-yellow-400" />
+                                        </span>
+                                    ) : (
+                                        <AddReviewDialog
+                                            tutorId={booking?.tutor?.id as string}
+                                            bookingId={booking.id}
+                                        />
+                                    )
+                                ) : (
+                                    <span>N/A</span>
+                                )}
                             </TableCell>
                             <TableCell className="space-x-2">
                                 <Link href={`/dashboard/bookings/${booking.id}`}>

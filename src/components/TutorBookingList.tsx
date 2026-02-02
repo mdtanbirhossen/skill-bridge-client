@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Edit, Eye } from "lucide-react";
+import { Edit, Eye, Star } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -58,6 +58,7 @@ const TutorBookingList = ({ bookings }: TutorBookingListProps) => {
                         <TableHead>Date</TableHead>
                         <TableHead>Time</TableHead>
                         <TableHead>Student</TableHead>
+                        <TableHead>Review</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -110,6 +111,16 @@ const TutorBookingList = ({ bookings }: TutorBookingListProps) => {
                                     )}
                                     <span>{booking.student?.name}</span>
                                 </div>
+                            </TableCell>
+                            <TableCell className="space-x-2">
+
+                                {
+                                    booking.review ? (<span className="flex items-center">
+                                        Reviewed: {booking?.review?.rating}
+                                        <Star className="ml-1 fill-yellow-400 text-yellow-400" />
+                                    </span>) : (<span>N/A</span>)
+                                }
+
                             </TableCell>
 
                             <TableCell className="space-x-2">

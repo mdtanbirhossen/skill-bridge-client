@@ -7,7 +7,7 @@ export const tutorRoutes: Route[] = [
     items: [
       {
         title: "Dashboard",
-        url: "/tutor/dashboard",
+        url: "/tutor",
         icon: LayoutDashboard
       },
       {

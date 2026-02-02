@@ -1,3 +1,4 @@
+import { Review } from "./review.types";
 import { Tutor } from "./tutor.types";
 import { User } from "./user.types";
 
@@ -6,7 +7,6 @@ export const BOOKING_STATUSES = [
   "COMPLETED",
   "CANCELLED",
 ] as const;
-
 
 export enum BookingStatus {
   CONFIRMED = "CONFIRMED",
@@ -32,6 +32,7 @@ export type Booking = {
   tutorId: string;
   tutor?: Tutor;
   student?: User;
+  review?: Review;
 
   createdAt: string;
   updatedAt: string;
